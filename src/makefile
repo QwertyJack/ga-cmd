@@ -1,6 +1,6 @@
 GA=google-authenticator/libpam
-GA_OBJS=hmac.o sha1.o base32.o pam_google_authenticator.o
-OBJS=keyhide.o verf.o codegen.o cfgfile.o
+GA_OBJS=hmac.o sha1.o base32.o google_authenticator_gen.o
+OBJS=keyhide.o verf.o cfgfile.o
 
 .SUFFIXES:
 
@@ -18,11 +18,11 @@ sha1.o: $(GA)/sha1.c
 base32.o: $(GA)/base32.c
 	gcc -c -std=gnu99 $<
 
-pam_google_authenticator.o: $(GA)/pam_google_authenticator.c
+google_authenticator_gen.o: $(GA)/google_authenticator_gen.c
 	gcc -c -std=gnu99 -DTESTING $<
 
 ga-cmd.o: ga-cmd.c bin/prockey
-	gcc -c -std=gnu99 -DSEED=`bin/prockey $(KEY)` $<
+	gcc -c -std=gnu99 $<
 
 bin/prockey: $(GA_OBJS) $(OBJS) prockey.o
 	@mkdir -p $(@D)
@@ -33,21 +33,13 @@ bin/ga-cmd: $(GA_OBJS) $(OBJS) ga-cmd.o
 	gcc -o $@ $^
 	strip $@
 
-bin/ga-test: $(GA_OBJS) $(OBJS) ga-test.o
-	@mkdir -p $(@D)
-	gcc -o $@ $^
-	bin/ga-test
-
 prockey: bin/prockey
-	@/bin/true
+	@true
 
 ga-cmd: bin/ga-cmd
-	@/bin/true
+	@true
 
-ga-test: bin/ga-test
-	@/bin/true
-
-all: prockey ga-test ga-cmd
+all: prockey ga-cmd
 
 clean:
 	rm -rf bin

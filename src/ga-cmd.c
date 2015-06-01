@@ -5,24 +5,26 @@
 #include "cfgfile.h"
 #include "verf.h"
 #include "codegen.h"
+#include "google-authenticator/libpam/google_authenticator_gen.h"
 
 /*-----------------------------------------------------------------*/
-int
-main()
-{
-char key_from_compile[] = { SEED };
-char key_from_file[17];
-char *key;
-int verf_code;
+int main(int argc, char *const argv[]) {
+    if (argc != 2) {
+        fprintf(stderr, "usage: ga-cmd keyfile\n");
+        return 1;
+    }
+    char *key;
+    int keyLen;
+    if (!(keyLen = load_key(argv[1], &key))) {
+        return 1;
+    }
 
-reveal_key(key_from_compile);
+    int verf_code = generateCode(key, time(0) / 30);
+    fprintf(stderr, "%s: ", argv[1]);
+    fflush(stderr);
+    fprintf(stdout, "%d", verf_code);
+    fflush(stdout);
+    fprintf(stderr, "\n");
 
-key = (load_key(get_config_filename(".ga-cmd"), key_from_file,
-	sizeof(key_from_file)) == 0) ? key_from_file : key_from_compile;
-
-verf_code = gen_verf_code(key, time(0) / 30);
-
-printf("%6.6d\n", verf_code);
-
-return EXIT_SUCCESS;
+    return EXIT_SUCCESS;
 }

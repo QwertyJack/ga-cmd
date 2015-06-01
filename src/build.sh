@@ -1,10 +1,5 @@
 #!/bin/sh
 
-if [ ! $1 ]; then
-	echo Need Key \($0 \<key\>\)
-	exit 1
-fi
-
 if [ ! -d google-authenticator ]; then
 	git clone https://code.google.com/p/google-authenticator/
 else
@@ -17,4 +12,4 @@ then
 	rm gmd-cmd.o
 fi
 
-make all KEY=$1
+make all
