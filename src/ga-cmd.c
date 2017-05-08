@@ -1,11 +1,11 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
-#include "keyhide.h"
 #include "cfgfile.h"
-#include "verf.h"
-#include "codegen.h"
-#include "google-authenticator/libpam/google_authenticator_gen.h"
+/*#include "keyhide.h"*/
+/*#include "verf.h"*/
+/*#include "codegen.h"*/
+#include "../google-authenticator/libpam/google_authenticator_gen.h"
 
 /*-----------------------------------------------------------------*/
 int main(int argc, char *const argv[]) {
