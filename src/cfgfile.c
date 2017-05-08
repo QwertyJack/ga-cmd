@@ -14,12 +14,10 @@ FILE *fp;
 struct stat s;
 
 if (filename == NULL)
-	{
-	return 0;
-	}
+    filename = ".otp";
 
 char *pathname = calloc(sizeof(char), 256);
-snprintf(pathname, 256, "%s/.ga-cmd.d/%s", getenv("HOME"), filename);
+snprintf(pathname, 256, "%s/%s", getenv("HOME"), filename);
 fp = fopen(pathname, "r");
 if (!fp) {
     fprintf(stderr, "ga-cmd: couldn't open keyfile: %s\n", pathname);

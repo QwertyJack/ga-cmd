@@ -9,10 +9,10 @@
 
 /*-----------------------------------------------------------------*/
 int main(int argc, char *const argv[]) {
-    if (argc != 2) {
-        fprintf(stderr, "usage: ga-cmd keyfile\n");
-        return 1;
-    }
+    /*if (argc != 2) {*/
+        /*fprintf(stderr, "usage: ga-cmd keyfile\n");*/
+        /*return 1;*/
+    /*}*/
     char *key;
     int keyLen;
     if (!(keyLen = load_key(argv[1], &key))) {
@@ -20,11 +20,7 @@ int main(int argc, char *const argv[]) {
     }
 
     int verf_code = generateCode(key, time(0) / 30);
-    fprintf(stderr, "%s: ", argv[1]);
-    fflush(stderr);
-    fprintf(stdout, "%d", verf_code);
-    fflush(stdout);
-    fprintf(stderr, "\n");
+    fprintf(stdout, "%06d\n", verf_code);
 
     return EXIT_SUCCESS;
 }
